@@ -9,9 +9,11 @@ from pymongo.collection import Collection
 from django.contrib.auth.hashers import make_password
 
 # Create your views here.
+
+
 @api_view(['GET'])
 def status(request):
-    return Response('API is running', status=status.HTTP_200_OK)
+    return Response('API is running')
 
 
 @api_view(['POST'])
@@ -54,4 +56,3 @@ def getUser(request, id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
