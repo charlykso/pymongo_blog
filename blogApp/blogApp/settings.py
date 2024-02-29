@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['https://dexter-api.onrender.com',
                  '0.0.0.0', '127.0.0.1', 'localhost', 'https://blogApp-api.onrender.com']
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 AUTH_USER_MODEL = 'Account.CustomUser'
 
 # Application definition
