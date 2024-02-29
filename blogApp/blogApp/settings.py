@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-vv)xj3im1*-im14$g)i7onq=vm(*mhr_*u7#_8)c2+*4tc4dek
 DEBUG = True
 
 ALLOWED_HOSTS = ['https://dexter-api.onrender.com',
-                 '0.0.0.0', '127.0.0.1', 'localhost', 'blogapp-api-nlq0.onrender.com']
+                 '0.0.0.0', '127.0.0.1', 'localhost', 'https://blogapp-api-nlq0.onrender.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
