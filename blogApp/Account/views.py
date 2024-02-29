@@ -41,9 +41,9 @@ def allUsers(request):
     try:
         users = CustomUser.objects.all()
         serializer = UserSerializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data)
     except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': str(e)})
 
 
 @api_view(['GET'])
