@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . /usr/src/app/
 
-EXPOSE 8000
+EXPOSE 8100
 
 
 # Run the application
