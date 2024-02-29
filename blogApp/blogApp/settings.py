@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-vv)xj3im1*-im14$g)i7onq=vm(*mhr_*u7#_8)c2+*4tc4dek
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://dexter-api.onrender.com",
-                 '0.0.0.0', '127.0.0.1', 'localhost', "https://blogApp-api.onrender.com"]
+ALLOWED_HOSTS = ['https://dexter-api.onrender.com',
+                 '0.0.0.0', '127.0.0.1', 'localhost', 'https://blogApp-api.onrender.com']
 
 AUTH_USER_MODEL = 'Account.CustomUser'
 
