@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import make_password
 # Create your views here.
 @api_view(['GET'])
 def status(request):
-    return Response("API is running", status=status.HTTP_200_OK)
+    return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
