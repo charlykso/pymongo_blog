@@ -19,6 +19,6 @@ from Account.views import status
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/status/', status),
+    path('api/status', status),
     path('api/user/', include('Account.urls')),
 ]
