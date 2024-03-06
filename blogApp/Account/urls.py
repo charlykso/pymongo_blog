@@ -14,4 +14,5 @@ urlpatterns = [
 
     # auth
     path('signin/', views.MyTokenObtainPairView.as_view(), name='signin'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]

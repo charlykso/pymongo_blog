@@ -6,8 +6,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        # fields = '__all__'
         exclude = ['password']
+
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +37,20 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['role'] = user.role
         return token
+
+
+class AllUserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+    class Meta:
+        model = CustomUser
+        fields = (
+            'email',
+            'username',
+            'role',
+            'is_active',
+            'is_staff',
+            'created_at',
+            'updated_at',
+            'groups',
+            'profile',
+        )

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 
 # Create your models here.
 roles = [
@@ -17,9 +18,11 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email is required')
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
+        group = Group.objects.get(name='Admin')
         if password:
             password = make_password(password)
             user.password = password
+        user.groups.add(group)
         user.is_active = True
         user.role = 'User'
         user.save()
@@ -80,3 +83,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+

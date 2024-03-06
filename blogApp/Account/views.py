@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser, Profile
-from .serializers import UserSerializer, ProfileSerializer, CreateUserSerializer, MyTokenObtainPairSerializer
+from .serializers import UserSerializer, ProfileSerializer, CreateUserSerializer, MyTokenObtainPairSerializer, AllUserSerializer
 from pymongo.collection import Collection
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.http import HttpRequest
 from collectives.getClaims import get_claims_from_simplejwt_token
+from django.contrib.auth.models import Group
+from django.db.models import Prefetch
 
 # Create your views here.
 
@@ -65,6 +67,9 @@ def create(request):
             serializer.validated_data['password'] = user.password
             serializer.validated_data['is_active'] = True
             serializer.save()
+            user = CustomUser.objects.get(email=serializer.validated_data['email'])
+            group = Group.objects.get(name='User')
+            user.groups.add(group)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,8 +81,8 @@ def create(request):
 @permission_classes((AllowAny,))
 def allUsers(request):
     try:
-        users = CustomUser.objects.all().order_by('-created_at')
-        serializer = UserSerializer(users, many=True)
+        users = CustomUser.objects.all().order_by('-created_at').prefetch_related(Prefetch('profile', queryset=Profile.objects.all()))
+        serializer = AllUserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
