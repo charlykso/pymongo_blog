@@ -41,7 +41,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, error_messages={'unique': 'This email is already taken. Please choose another one.'})
     role = models.CharField(max_length=20, default='User', choices=roles)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
