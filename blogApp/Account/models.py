@@ -61,8 +61,7 @@ class Profile(models.Model):
         CustomUser, blank=True, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, blank=True)
     githubUsername = models.CharField(max_length=50, blank=True)
-    profilePic = models.ImageField(
-        upload_to='images/', blank=True, default='images/default_avatar.jpeg')
+    profilePic = models.CharField(max_length=255, blank=True, default='https://res.cloudinary.com/dipxdfu0l/image/upload/v1709322839/default_avatar_otcxu1.jpg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

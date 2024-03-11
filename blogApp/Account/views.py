@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser, Profile
-from .serializers import UserSerializer, ProfileSerializer, CreateUserSerializer, MyTokenObtainPairSerializer, AllUserSerializer
+from .serializers import UserSerializer, ProfileSerializer, CreateUserSerializer, MyTokenObtainPairSerializer, AllUserSerializer, UpdateProfileSerializer
 from pymongo.collection import Collection
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.hashers import make_password
@@ -151,6 +151,19 @@ def get_user_profile(request, pk):
     try:
         profile = Profile.objects.get(user=pk)
         serializer = ProfileSerializer(profile, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['PUT'])
+@permission_classes((AllowAny,))
+def updateProfile(request, pk):
+    try:
+        profile = Profile.objects.get(id=pk)
+        serializer = UpdateProfileSerializer(instance=profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

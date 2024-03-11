@@ -13,6 +13,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
+            'id',
             'email',
             'password',
             'username',
@@ -44,6 +45,7 @@ class AllUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
+            'id',
             'email',
             'username',
             'role',
@@ -53,4 +55,15 @@ class AllUserSerializer(serializers.ModelSerializer):
             'updated_at',
             'groups',
             'profile',
+        )
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'id',
+            'user',
+            'phone',
+            'githubUsername',
+            'profilePic',
         )
