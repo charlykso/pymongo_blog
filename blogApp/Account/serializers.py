@@ -66,3 +66,16 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             'githubUsername',
             'profilePic',
         )
+    
+class UserSigninSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+    class Meta:
+        model = CustomUser
+        fields = (
+            'id',
+            'email',
+            'username',
+            'role',
+            'is_active',
+            'profile'
+        )

@@ -38,7 +38,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
             _object = user
             _id = _object['user'].id
             # use the id to get the new user
-            new_user  = CustomUser.objects.get(id=_id)
+            new_user  = CustomUser.objects.get(id=_id).prefetch_related(Prefetch('profile', queryset=Profile.objects.all()))
             serializer = UserSerializer(new_user, many=False)
             # create a new response object
             new_response = Response()
