@@ -38,8 +38,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
             _object = user
             _id = _object['user'].id
             # use the id to get the new user
-            new_user  = CustomUser.objects.get(id=_id).prefetch_related(Prefetch('profile', queryset=Profile.objects.all()))
-            serializer = UserSerializer(new_user, many=False)
+            new_user  = CustomUser.objects.get(id=_id)
+            serializer = AllUserSerializer(new_user, many=False)
             # create a new response object
             new_response = Response()
             new_response.data = {
@@ -97,7 +97,7 @@ def allUsers(request):
 def getUser(request, pk):
     try:
         user = CustomUser.objects.get(id=pk)
-        serializer = UserSerializer(user, many=False)
+        serializer = AllUserSerializer(user, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
