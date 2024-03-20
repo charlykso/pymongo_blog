@@ -15,6 +15,7 @@ from django.contrib.auth.models import Group
 from django.db.models import Prefetch
 from .forms import UpdateProfileForm
 import cloudinary
+from helpers.getTokenForUser import get_token_for_user
 
 # Create your views here.
 
@@ -64,15 +65,17 @@ def create(request):
             password = serializer.validated_data['password']
             newpassword = make_password(password)
             # get an instance of the user
+            
             user = CustomUser(
                 username=serializer.validated_data['username'], email=serializer.validated_data['email'], password=newpassword)
             serializer.validated_data['password'] = user.password
             serializer.validated_data['is_active'] = True
             serializer.save()
-            user = CustomUser.objects.get(email=serializer.validated_data['email'])
+            new_user = CustomUser.get_user_by_email(serializer.validated_data['email'])
             group = Group.objects.get(name='User')
-            user.groups.add(group)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            new_user.groups.add(group)
+            data = get_token_for_user(serializer.data)
+            return Response(data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:

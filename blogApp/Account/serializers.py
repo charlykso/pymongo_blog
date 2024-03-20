@@ -15,6 +15,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'email',
+            'password',
             'username',
             'role',
             'is_active',
@@ -77,5 +78,6 @@ class UserSigninSerializer(serializers.ModelSerializer):
             'username',
             'role',
             'is_active',
-            'profile'
+            'created_at',
+            'profile',
         )

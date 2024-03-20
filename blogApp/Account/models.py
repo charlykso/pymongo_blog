@@ -54,6 +54,10 @@ class CustomUser(AbstractUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    @classmethod
+    def get_user_by_email(cls, email):
+        return cls.objects.get(email=email)
 
 
 class Profile(models.Model):
