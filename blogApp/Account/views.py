@@ -166,27 +166,19 @@ def get_user_profile(request, pk):
 @api_view(['PUT'])
 @permission_classes((AllowAny,))
 def updateProfile(request, pk):
-    try:
-        if request.FILES:
-            form = UpdateProfileForm(request.POST, request.FILES)
-            profile = Profile.objects.get(id=pk)
-            if form.is_valid():
-                img = form.cleaned_data['img']
-                upload_result = cloudinary.uploader.upload(img, resource_type = "image", folder="blog/profilePics")
-                form.cleaned_data['profilePic'] = upload_result['url']
-                serializer = UpdateProfileSerializer(instance=profile, data=form.cleaned_data, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response({'message': form.errors}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            profile = Profile.objects.get(id=pk)
-            serializer = UpdateProfileSerializer(instance=profile, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+  try:
+    profile = Profile.objects.get(id=pk)
+    serializer = UpdateProfileSerializer(instance=profile, data=request.data, partial=True)
+
+    if serializer.is_valid():
+      if request.FILES:
+        img = request.FILES['img']  # Assuming 'img' field in form
+        upload_result = cloudinary.uploader.upload(img, resource_type="image", folder="blog/profilePics")
+        serializer.validated_data['profilePic'] = upload_result['url']
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  except Exception as e:
+    return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

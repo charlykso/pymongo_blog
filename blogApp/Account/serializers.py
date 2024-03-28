@@ -66,6 +66,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             'phone',
             'githubUsername',
             'profilePic',
+            'updated_at',
         )
     
 class UserSigninSerializer(serializers.ModelSerializer):
